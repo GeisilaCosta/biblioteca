@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biblioteca OnLine</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Biblioteca OnLine</h1>
+        <nav>
+            <ul>
+                <li><a href="#livros">Lista de Livros</a></li>
+                <li><a href="#adicionar-livro">Adicionar novo livro</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="livros">
+            <h2>Lista de Livros</h2>
+            <ul id="lista-livros">
+                <!--livros serao inseridos dinamicamente-->
+            </ul>
+        </section>
+    </main>
+</body>
+</html>
