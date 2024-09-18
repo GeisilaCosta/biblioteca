@@ -95,6 +95,17 @@ button {
 button:hover {
     background-color: #232e23;
 }
+#pesquisa-livro {
+    margin: 20px 0;
+}
+
+#filtro {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
 
 /* Rodapé */
 footer {
@@ -109,8 +120,11 @@ footer {
     }
 
     #lista-livros li {
+        background-color: #53525298;
         margin: 10px 0;
         display: flex;
+        padding: 10px;
+        border-radius: 5px;
         justify-content: space-between;
         align-items: center;
     }
