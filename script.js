@@ -28,6 +28,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 livrosAtuais.push(livroInicial);
             }
         });
+        salvarLivrosNoLocalStorage(); // Salva os livros atualizados no localStorage
     }
 
     // Adicionar os livros iniciais (apenas se não já existirem no localStorage)
@@ -57,55 +58,61 @@ document.addEventListener('DOMContentLoaded', function() {
     // Carregar os livros ao iniciar a página
     carregarLivrosNaLista();
 
-    // Função de envio do formulário
-    form.addEventListener('submit', function(event) {
-        event.preventDefault();
-        
-        const titulo = document.getElementById('titulo').value.trim();
-        const autor = document.getElementById('autor').value.trim();
-        const ano = document.getElementById('ano').value.trim();
+  // Função para mostrar mensagens de feedback
+function mostrarFeedback(mensagem) {
+    const feedback = document.getElementById('feedback');
+    feedback.textContent = mensagem;
+    setTimeout(() => {
+        feedback.textContent = ''; // Limpa a mensagem após 3 segundos
+    }, 3000);
+}
 
-        if (titulo === '' || autor === '' || ano === '') {
-            alert('Por favor, preencha todos os campos.');
-            return;
-        }
+// Função de envio do formulário
+form.addEventListener('submit', function(event) {
+    event.preventDefault();
+    
+    const titulo = document.getElementById('titulo').value.trim();
+    const autor = document.getElementById('autor').value.trim();
+    const ano = document.getElementById('ano').value.trim();
 
-        // Cria um objeto livro com as informações do formulário
-        const novoLivro = {
-            titulo: titulo,
-            autor: autor,
-            ano: ano,
-            nota: 0, // Se quiser, pode adicionar campo de nota ao formulário e capturar aqui
-            imagem: '' // Caso adicione suporte a imagem no formulário, capture o valor
-        };
+    if (titulo === '' || autor === '' || ano === '') {
+        alert('Por favor, preencha todos os campos.');
+        return;
+    }
 
-        // Adiciona o novo livro na lista visual
-        adicionarLivroNaLista(novoLivro.titulo, novoLivro.autor, novoLivro.ano, novoLivro.nota, novoLivro.imagem);
+    const novoLivro = {
+        titulo: titulo,
+        autor: autor,
+        ano: ano,
+        nota: 0,
+        imagem: ''
+    };
 
-        // Atualiza a lista de livros atuais
-        livrosAtuais.push(novoLivro);
+    adicionarLivroNaLista(novoLivro.titulo, novoLivro.autor, novoLivro.ano, novoLivro.nota, novoLivro.imagem);
+    livrosAtuais.push(novoLivro);
+    salvarLivrosNoLocalStorage();
 
-        // Salva a lista atualizada no localStorage
+    // Mostrar feedback
+    mostrarFeedback('Livro adicionado com sucesso!');
+
+    form.reset();
+});
+
+// Remover livros da lista
+document.addEventListener('click', function(event) {
+    if (event.target.classList.contains('remover-livro')) {
+        const livroItem = event.target.parentElement;
+        listaLivros.removeChild(livroItem);
+
+        const tituloRemovido = livroItem.querySelector('span').textContent.split(' por ')[0];
+        livrosAtuais = livrosAtuais.filter(livro => livro.titulo !== tituloRemovido);
         salvarLivrosNoLocalStorage();
 
-        // Resetar o formulário
-        form.reset();
-    });
+        // Mostrar feedback
+        mostrarFeedback('Livro removido com sucesso!');
+    }
+});
 
-    // Remover livros da lista
-    document.addEventListener('click', function(event) {
-        if (event.target.classList.contains('remover-livro')) {
-            const livroItem = event.target.parentElement;
-            listaLivros.removeChild(livroItem);
-
-            // Atualizar a lista de livros
-            const tituloRemovido = livroItem.querySelector('span').textContent.split(' por ')[0];
-            livrosAtuais = livrosAtuais.filter(livro => livro.titulo !== tituloRemovido);
-
-            // Salvar a lista atualizada no localStorage
-            salvarLivrosNoLocalStorage();
-        }
-    });
 
     // Filtro de livros
     filtro.addEventListener('input', function() {
@@ -122,3 +129,19 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+// Função para limpar a lista de livros
+function limparLivros() {
+    localStorage.removeItem('livros'); // Remove os livros do localStorage
+    livrosAtuais = []; // Limpa a lista de livros atuais
+    carregarLivrosNaLista(); // Atualiza a lista visual
+}
+
+// Adiciona o evento ao botão de limpar livros
+document.getElementById('limpar-livros').addEventListener('click', function() {
+    if (confirm('Tem certeza que deseja limpar a lista de livros?')) {
+        limparLivros(); // Chama a função para limpar livros
+    }
+});
+
+//localStorage.clear();

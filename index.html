@@ -29,6 +29,8 @@
             <ul id="lista-livros">
                 <!-- Livros serão inseridos dinamicamente -->
             </ul>
+            <button id="limpar-livros">Limpar Lista de novos Livros</button>
+
         </section>
 
         <section id="adicionar-livro">
@@ -43,12 +45,15 @@
                 <label for="ano">Ano:</label>
                 <input type="number" id="ano" name="ano" required>
                 
-                <!-- Novo campo para upload de imagem -->
+                <label for="nota">Nota (1 a 5):</label>
+                <input type="number" id="nota" name="nota" min="1" max="5" step="1" required>
+                
                 <label for="imagem">Capa do Livro (opcional):</label>
                 <input type="file" id="imagem" name="imagem" accept="image/*">
                 
                 <button type="submit">Adicionar Livro</button>
             </form>
+            <div id="feedback" style="color: green; margin-top: 10px;"></div>
         </section>
     </main>
 
@@ -60,3 +65,4 @@
     <script src="script.js"></script>
 </body>
 </html>
+
